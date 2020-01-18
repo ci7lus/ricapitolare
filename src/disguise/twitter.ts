@@ -52,9 +52,6 @@ twitterRouter.get("/", async ctx => {
                 .map(datum => [(datum.name || datum.getAttribute("property") || "").replace("og:", ""), datum.content])
         )
         const url = og.get("url") || req.request.responseURL
-        const type = og.get("type") || null
-        const siteName = og.get("site_name") || null
-        const image = og.get("image") || null
 
         const links: HTMLLinkElement[] = Array.from(dom.window.document.querySelectorAll("link"))
 
@@ -87,11 +84,11 @@ twitterRouter.get("/", async ctx => {
             url,
             canonical,
             icon,
-            type: type || card.get("type") || null,
-            site_name: siteName || card.get("site") || null,
-            title: title || card.get("title") || null,
-            description: description || card.get("description") || null,
-            image: image || card.get("image") || null,
+            type: og.get("type") || card.get("type") || null,
+            site_name: og.get("site_name") || card.get("site") || null,
+            title: card.get("title") || og.get("title") || title || null,
+            description: card.get("description") || og.get("description") || description || null,
+            image: og.get("image") || card.get("image") || null,
         }
         ctx.type = "json"
         ctx.body = body
