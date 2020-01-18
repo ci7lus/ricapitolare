@@ -6,20 +6,25 @@ import { JSDOM } from "jsdom"
 const twitterRouter = new Router()
 
 twitterRouter.get("/", async ctx => {
+    const uri = ctx.query.uri
+    if (typeof uri !== "string") {
+        return Promise.reject(ctx.throw(400))
+    }
+
+    const req = await request({
+        url: uri,
+        headers: {
+            "User-Agent": "Twitterbot/1.0",
+        },
+        validateStatus: code => true,
+        responseType: "text",
+    })
+
+    if (req.status !== 200) {
+        return Promise.reject(ctx.throw(500))
+    }
+
     try {
-        const uri = $.string.transformOrThrow(ctx.query.uri)
-
-        const parsedUri = new URL(uri)
-
-        const req = await request({
-            url: uri,
-            headers: {
-                "User-Agent": "Twitterbot/1.0",
-            },
-            validateStatus: code => true,
-            responseType: "text",
-        })
-
         const resBody = ((req.data as string) || "")
             .replace(/[\r\n]?/g, "")
             .replace(/<script.*?\/script>*/g, "")
@@ -93,7 +98,7 @@ twitterRouter.get("/", async ctx => {
         ctx.type = "json"
         ctx.body = body
     } catch (error) {
-        ctx.throw(400)
+        return Promise.reject(ctx.throw(500))
     }
 })
 
