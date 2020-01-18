@@ -12,7 +12,18 @@ const main = () => {
     router.get("/", async ctx => {
         const uri = ctx.query.uri
         if (typeof uri !== "string") {
-            return Promise.reject(ctx.throw(400))
+            ctx.type = "json"
+            ctx.body = {
+                ricapitolare: {
+                    GET: {
+                        query: {
+                            uri: "take uri of remote page.",
+                        },
+                    },
+                },
+            }
+            ctx.status = 200
+            return
         }
 
         const req = await request({
