@@ -7,6 +7,7 @@
         "@types/jsdom": "^12.2.4",
         "@types/koa": "^2.11.0",
         "@types/koa-router": "^7.4.0",
+        "@types/koa2-cors": "^2.0.1",
         "nodemon": "^2.0.2",
         "prettier": "^1.19.1",
         "riassumere": "^0.3.4",
@@ -19,6 +20,7 @@
         "koa": "^2.11.0",
         "koa-body": "^4.1.1",
         "koa-router": "^7.4.0",
+        "koa2-cors": "^2.0.6",
         "transform-ts": "^0.3.0"
     },
     "scripts": {

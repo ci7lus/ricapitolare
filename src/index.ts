@@ -1,11 +1,13 @@
 import Koa from "koa"
 import Router from "koa-router"
+import cors from "koa2-cors"
 import { request } from "gaxios"
 import { JSDOM } from "jsdom"
 import { interfaces } from "riassumere"
 
 const main = () => {
     const app = new Koa()
+    app.use(cors())
     const router = new Router()
     router.get("/", async ctx => {
         const uri = ctx.query.uri

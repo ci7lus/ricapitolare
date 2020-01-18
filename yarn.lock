@@ -97,6 +97,13 @@
   dependencies:
     "@types/koa" "*"
 
+"@types/koa2-cors@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/koa2-cors/-/koa2-cors-2.0.1.tgz#76a635cadc9c10e9d29a209fa2db28529dfc765a"
+  integrity sha512-8DaO8CkGJGAVWPeODHeGW6T9grKunnfAg0LAyayMrqP/ggPTiHxwrvrk7UJ+NNZ7aQo4Cn0fHSMKhucj+PcquA==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/koa@*", "@types/koa@^2.11.0":
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.11.0.tgz#394a3e9ec94f796003a6c8374b4dbc2778746f20"
@@ -1160,6 +1167,11 @@ koa-router@^7.4.0:
     methods "^1.0.1"
     path-to-regexp "^1.1.1"
     urijs "^1.19.0"
+
+koa2-cors@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/koa2-cors/-/koa2-cors-2.0.6.tgz#9ad23df3a0b9bb84530b46f5944f3fb576086554"
+  integrity sha512-JRCcSM4lamM+8kvKGDKlesYk2ASrmSTczDtGUnIadqMgnHU4Ct5Gw7Bxt3w3m6d6dy3WN0PU4oMP43HbddDEWg==
 
 koa@^2.11.0:
   version "2.11.0"
