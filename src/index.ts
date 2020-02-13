@@ -1,9 +1,10 @@
 import Koa from "koa"
 import Router from "koa-router"
 import cors from "koa2-cors"
-import { request } from "gaxios"
-import { JSDOM } from "jsdom"
 import { interfaces } from "riassumere"
+import client from "cheerio-httpcli"
+import { URL } from "url"
+client.set("headers", { "User-Agent": "Twitterbot/1.0" })
 
 const main = () => {
     const app = new Koa()
@@ -26,71 +27,51 @@ const main = () => {
             return
         }
 
-        const req = await request({
-            url: uri,
-            headers: {
-                "User-Agent": "Twitterbot/1.0",
-            },
-            validateStatus: code => true,
-            responseType: "text",
-        })
+        const res = await client.fetch(uri)
 
-        if (req.status !== 200) {
-            return Promise.reject(ctx.throw(500, `remote status code was ${req.status}`))
-        } else if (!req.headers["content-type"]?.startsWith("text/html")) {
+        if (res.error) {
+            return Promise.reject(ctx.throw(500, `remote status code was ${res.response.statusCode}`))
+        } else if (!res.response.headers["content-type"]?.startsWith("text/html")) {
             return Promise.reject(ctx.throw(500, "remote content was not html"))
         }
 
         try {
-            const resBody = ((req.data as string) || "")
-                .replace(/[\r\n]?/g, "")
-                .replace(/<script.*?\/script>*/g, "")
-                .replace(/<style.*?\/style>*/g, "")
-            const dom = new JSDOM(resBody)
-
-            const doc = dom.window.document
-            const url =
-                (doc.querySelector("meta[property='og:url']") as HTMLMetaElement | null)?.content || req.request.responseURL
+            const url = res.$("meta[property='og:url']").attr("content") || res.response.url || uri
 
             let icon: string | null = null
-            const iconNode = doc.querySelector("link[rel$='icon']") as HTMLLinkElement
+            const iconNode = res.$("link[rel$='icon']").attr("href")
+
             if (iconNode) {
                 const urlParsed = new URL(url)
-                icon =
-                    iconNode.href.startsWith("/") && !iconNode.href.startsWith("//")
-                        ? `${urlParsed.origin}${iconNode.href}`
-                        : iconNode.href
+                icon = iconNode.startsWith("/") && !iconNode.startsWith("//") ? `${urlParsed.origin}${iconNode}` : iconNode
             }
 
             const body: { [k in keyof interfaces.ISummary & "url"]: string | null } = {
-                lang:
-                    doc.querySelector("html")?.lang ||
-                    (doc.querySelector("meta[property='og:locale']") as HTMLMetaElement | null)?.content ||
-                    null,
+                lang: res.$("meta[property='og:locale']").attr("content") || res.$("html").attr("lang") || null,
                 url,
-                canonical: (doc.querySelector("link[rel='canonical']") as HTMLLinkElement | null)?.href || null,
+                canonical: res.$("link[rel='canonical']").attr("href") || null,
                 icon,
                 type:
-                    (doc.querySelector("meta[property='og:type']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='twitter:type']") as HTMLMetaElement | null)?.content ||
+                    res.$("meta[property='og:type']").attr("content") ||
+                    res.$("meta[property='twitter:type']").attr("content") ||
                     null,
                 site_name:
-                    (doc.querySelector("meta[property='og:site_name']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='twitter:site']") as HTMLMetaElement | null)?.content ||
+                    res.$("meta[property='og:site_name']").attr("content") ||
+                    res.$("meta[property='twitter:site']").attr("content") ||
                     null,
                 title:
-                    (doc.querySelector("meta[property='og:title']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='twitter:title']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("title") as HTMLTitleElement)?.text ||
+                    res.$('meta[property="og:title"]').attr("content") ||
+                    res.$('meta[property="twitter:title"]').attr("content") ||
+                    res.$("title").text() ||
                     null,
                 description:
-                    (doc.querySelector("meta[property='og:description']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='twitter:description']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='description']") as HTMLMetaElement | null)?.content ||
+                    res.$('meta[property="og:description"]').attr("content") ||
+                    res.$('meta[property="twitter:description"]').attr("content") ||
+                    res.$('meta[name="description"]').attr("content") ||
                     null,
                 image:
-                    (doc.querySelector("meta[property='og:image']") as HTMLMetaElement | null)?.content ||
-                    (doc.querySelector("meta[property='twitter:image']") as HTMLMetaElement | null)?.content ||
+                    res.$('meta[property="og:image"]').attr("content") ||
+                    res.$('meta[property="twitter:image"]').attr("content") ||
                     null,
             }
             ctx.type = "json"
