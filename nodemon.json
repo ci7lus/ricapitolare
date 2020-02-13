@@ -1,5 +1,5 @@
 {
     "watch": ["src"],
     "ext": "ts",
-    "exec": "yarn tsc && node dist/index.js"
+    "exec": "ts-node src/index.ts"
 }
