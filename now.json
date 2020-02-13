@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "routes": [
+        {
+            "src": "/",
+            "dest": "src/index.ts",
+            "headers": {
+                "access-control-allow-origin": "*"
+            }
+        }
+    ],
+    "builds": [
+        {
+            "src": "src/**/*.ts",
+            "use": "@now/node"
+        }
+    ]
+}
