@@ -9,7 +9,6 @@
         "@types/koa2-cors": "^2.0.1",
         "nodemon": "^2.0.2",
         "prettier": "^1.19.1",
-        "riassumere": "^0.3.4",
         "ts-node": "^8.6.2",
         "typescript": "^3.7.5"
     },
@@ -17,9 +16,7 @@
         "cheerio-httpcli": "^0.7.4",
         "koa": "^2.11.0",
         "koa-body": "^4.1.1",
-        "koa-router": "^7.4.0",
-        "koa2-cors": "^2.0.6",
-        "transform-ts": "^0.3.0"
+        "koa-router": "^7.4.0"
     },
     "scripts": {
         "dev": "nodemon"

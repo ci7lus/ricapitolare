@@ -1,16 +1,17 @@
 import Koa from "koa"
 import Router from "koa-router"
-import cors from "koa2-cors"
-import { interfaces } from "riassumere"
 import client from "cheerio-httpcli"
 import { URL } from "url"
 client.set("headers", { "User-Agent": "Twitterbot/1.0" })
 
 const main = () => {
     const app = new Koa()
-    app.use(cors())
     const router = new Router()
+    router.options("*", async ctx => {
+        ctx.status = 204
+    })
     router.get("/", async ctx => {
+        ctx.set("access-control-allow-origin", "*")
         const uri = ctx.query.uri
         if (typeof uri !== "string") {
             ctx.type = "json"
@@ -46,7 +47,17 @@ const main = () => {
                 icon = iconNode.startsWith("/") && !iconNode.startsWith("//") ? `${urlParsed.origin}${iconNode}` : iconNode
             }
 
-            const body: { [k in keyof interfaces.ISummary & "url"]: string | null } = {
+            const body: {
+                lang: string | null
+                url: string
+                canonical: string | null
+                icon: string | null
+                type: string | null
+                site_name: string | null
+                title: string | null
+                description: string | null
+                image: string | null
+            } = {
                 lang: res.$("meta[property='og:locale']").attr("content") || res.$("html").attr("lang") || null,
                 url,
                 canonical: res.$("link[rel='canonical']").attr("href") || null,
@@ -77,7 +88,6 @@ const main = () => {
             ctx.type = "json"
             ctx.body = body
             ctx.set("cache-control", "s-maxage=3600, stale-while-revalidate")
-            ctx.set("access-control-allow-origin", "*")
         } catch (error) {
             console.error(error)
             return Promise.reject(ctx.throw(500))
