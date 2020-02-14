@@ -77,6 +77,7 @@ const main = () => {
             ctx.type = "json"
             ctx.body = body
             ctx.set("cache-control", "s-maxage=3600, stale-while-revalidate")
+            ctx.set("access-control-allow-origin", "*")
         } catch (error) {
             console.error(error)
             return Promise.reject(ctx.throw(500))
