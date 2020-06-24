@@ -33,9 +33,12 @@ const main = () => {
       return
     }
 
-    const url = querystring.parse(ctx.querystring, undefined, undefined, {
-      decodeURIComponent: (s) => s,
-    }).url
+    const isAlreadyEscaped = ctx.querystring.includes("%3A%2F%2F") // 環境差異の吸収
+    const url = isAlreadyEscaped
+      ? encodeURI(ctx.query.url)
+      : querystring.parse(ctx.querystring, undefined, undefined, {
+          decodeURIComponent: (s) => s,
+        }).url
     if (typeof url !== "string")
       return Promise.reject(ctx.throw(500, "url parse error"))
     if (!isUrl(url))
