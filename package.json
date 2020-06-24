@@ -1,24 +1,28 @@
 {
-    "name": "ricapitolare",
-    "version": "1.0.0",
-    "author": "ci7lus <7887955+ci7lus@users.noreply.github.com>",
-    "license": "MIT",
-    "devDependencies": {
-        "@types/koa": "^2.11.0",
-        "@types/koa-router": "^7.4.0",
-        "@types/koa2-cors": "^2.0.1",
-        "nodemon": "^2.0.2",
-        "prettier": "^1.19.1",
-        "ts-node": "^8.6.2",
-        "typescript": "^3.7.5"
-    },
-    "dependencies": {
-        "cheerio-httpcli": "^0.7.4",
-        "koa": "^2.11.0",
-        "koa-body": "^4.1.1",
-        "koa-router": "^7.4.0"
-    },
-    "scripts": {
-        "dev": "nodemon"
-    }
+  "name": "ricapitolare",
+  "version": "2.0.0",
+  "author": "ci7lus <7887955+ci7lus@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/is-url": "^1.2.28",
+    "@types/koa": "^2.11.3",
+    "@types/koa-router": "^7.4.1",
+    "@types/node-fetch": "^2.5.7",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "domino": "^2.1.5",
+    "is-url": "^1.2.4",
+    "koa": "^2.13.0",
+    "koa-router": "^9.0.1",
+    "node-fetch": "^2.6.0",
+    "page-metadata-parser": "^1.1.4"
+  },
+  "scripts": {
+    "dev": "nodemon"
+  }
 }

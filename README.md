@@ -1,18 +1,18 @@
 # ricapitolare
 
-OGP タグを取ってくるよ
+[mozilla/page-metadata-parser](https://github.com/mozilla/page-metadata-parser) を用いて OGP タグを取得します。
 
 ## エンドポイント
 
-```
-https://ricapitolare.now.sh/
+```plaintext
+https://ricapitolare.vercel.app/
 ```
 
 ## パラメータ
 
-| パラメータ | 意味                   |
-| ---------- | ---------------------- |
-| uri        | URI を指定してください |
+| パラメータ | 意味                         |
+| ---------- | ---------------------------- |
+| url        | OGP を取得したいページの url |
 
 ## ライセンス
 
