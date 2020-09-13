@@ -19,7 +19,7 @@
     "is-url": "^1.2.4",
     "koa": "^2.13.0",
     "koa-router": "^9.0.1",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "page-metadata-parser": "^1.1.4"
   },
   "scripts": {
