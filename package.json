@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "domino": "^2.1.5",
+    "iconv-lite": "^0.6.2",
     "is-url": "^1.2.4",
+    "jschardet": "^2.2.1",
     "koa": "^2.13.0",
     "koa-router": "^9.0.1",
     "node-fetch": "^2.6.0",

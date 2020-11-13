@@ -6,6 +6,8 @@ import querystring from "querystring"
 import isUrl from "is-url"
 // @ts-ignore
 import { getMetadata } from "page-metadata-parser"
+import { detectEncode } from "./encoding"
+import iconv from "iconv-lite"
 
 const main = () => {
   const app = new Koa()
@@ -53,7 +55,15 @@ const main = () => {
       )
     if (!r.headers.get("Content-Type")?.startsWith("text/html"))
       return Promise.reject(ctx.throw(400, "remote content was not html"))
-    const html = await r.text()
+    const buf = await r.buffer()
+
+    let html: string
+    const encoding = detectEncode(buf)
+    if (encoding) {
+      html = iconv.decode(buf, encoding)
+    } else {
+      html = buf.toString("ascii")
+    }
 
     try {
       const { document } = domino.createWindow(html)
