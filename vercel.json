@@ -11,8 +11,8 @@
   ],
   "builds": [
     {
-      "src": "src/**/*.ts",
-      "use": "@now/node"
+      "src": "src/index.ts",
+      "use": "@vercel/node"
     }
   ]
 }
