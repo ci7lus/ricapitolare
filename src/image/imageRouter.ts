@@ -54,7 +54,12 @@ imageRouter.get("/svg", async (ctx) => {
     let icon: string | undefined
     try {
       if (iconUrl) {
-        const r = await fetch(iconUrl)
+        const r = await fetch(iconUrl, {
+          headers: {
+            "User-Agent":
+              "ricapitolare (+https://github.com/ci7lus/ricapitolare)",
+          },
+        })
         const mime = r.headers.get("content-type")?.toLowerCase()
         const imageBuff = await r.buffer()
         const buff = await sharp(imageBuff).resize(null, 128).toBuffer()
