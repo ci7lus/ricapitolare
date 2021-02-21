@@ -15,11 +15,11 @@ export const generateSvg = (options: {
   const description = options.description && xss(options.description)
   const provider = options.provider && xss(options.provider)
   return `
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='640px' height='144px'>
-    <foreignObject width='640px' height='144px'>
-        <div class="h-full w-full" xmlns="http://www.w3.org/1999/xhtml">
-            <style>${style}</style>
-            <div class="bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 rounded-md border-gray-800 border flex space-x-6">
+<svg xmlns='http://www.w3.org/2000/svg' width='640px' height='144px'>
+    <foreignObject width='640px' height='144px' requiredExtensions="http://www.w3.org/1999/xhtml">
+        <style>${style}</style>
+        <body xmlns="http://www.w3.org/1999/xhtml" class="h-full w-full">
+            <div class="antialiased font-sans bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 rounded-md border-gray-800 border flex space-x-6">
                 <div class="flex-shrink-0 flex items-center justify-center">
                     <div class="bg-cover bg-center w-16 h-16 border rounded-md border-gray-600 border-opacity-50" style="background-image: url(${icon})" />
                 </div>
@@ -34,7 +34,7 @@ export const generateSvg = (options: {
                     }</p>
                 </div>
             </div>
-        </div>
+        </body>
     </foreignObject>
 </svg>
 `.trim()

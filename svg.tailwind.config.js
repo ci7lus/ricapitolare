@@ -11,4 +11,7 @@ module.exports = {
     purgeLayersByDefault: true,
   },
   darkMode: "media",
+  corePlugins: {
+    animation: false,
+  },
 }
