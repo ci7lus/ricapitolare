@@ -4,10 +4,10 @@ import fetch from "node-fetch"
 import domino from "domino"
 import querystring from "querystring"
 import isUrl from "is-url"
-// @ts-ignore
 import { getMetadata } from "page-metadata-parser"
 import { detectEncode } from "./encoding"
 import iconv from "iconv-lite"
+import { imageRouter } from "./image/imageRouter"
 
 const main = () => {
   const app = new Koa()
@@ -21,7 +21,14 @@ const main = () => {
       ctx.type = "json"
       ctx.body = {
         ricapitolare: {
-          request: {
+          "/": {
+            GET: {
+              query: {
+                url: "take a url of target page.",
+              },
+            },
+          },
+          "/svg": {
             GET: {
               query: {
                 url: "take a url of target page.",
@@ -76,6 +83,9 @@ const main = () => {
       return Promise.reject(ctx.throw(500))
     }
   })
+
+  router.use(imageRouter.routes())
+
   app.use(router.routes())
 
   const port = process.env.PORT || 5000

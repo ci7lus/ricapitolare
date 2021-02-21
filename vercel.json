@@ -2,7 +2,7 @@
   "version": 2,
   "routes": [
     {
-      "src": "/",
+      "src": "/.*",
       "dest": "src/index.ts",
       "headers": {
         "access-control-allow-origin": "*"
@@ -13,6 +13,7 @@
     {
       "src": "src/index.ts",
       "use": "@vercel/node"
-    }
+    },
+    { "src": "package.json", "use": "@vercel/static-build" }
   ]
 }
