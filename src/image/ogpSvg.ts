@@ -19,19 +19,19 @@ export const generateSvg = (options: {
     <foreignObject width='640px' height='144px' requiredExtensions="http://www.w3.org/1999/xhtml">
         <style>${style}</style>
         <body xmlns="http://www.w3.org/1999/xhtml" class="h-full w-full">
-            <div class="antialiased font-sans bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 rounded-md border-gray-800 border flex space-x-6">
-                <div class="flex-shrink-0 flex items-center justify-center">
+            <div class="antialiased font-sans bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 rounded-md border-gray-800 border flex">
+                <div class="flex-shrink-0 flex items-center justify-center pl-4 pr-8">
                     <div class="bg-cover bg-center w-16 h-16 border rounded-md border-gray-600 border-opacity-50" style="background-image: url(${icon})" />
                 </div>
                 <div class="flex-grow w-64 flex flex-col justify-center space-y-1">
                     <h1 class="truncate text-xl">${title || ""}</h1>
-                    <a class="truncate text-sm text-blue-400 hover:underline block" href="${url}" target="_blank">${url}</a>
                     <p class="truncate text-gray-800 dark:text-gray-200">${
                       description || ""
                     }</p>
                     <p class="truncate text-sm text-gray-600 dark:text-gray-400">${
                       provider || ""
                     }</p>
+                    <a class="truncate text-sm text-blue-400 hover:underline block" href="${url}" target="_blank">${url}</a>
                 </div>
             </div>
         </body>
