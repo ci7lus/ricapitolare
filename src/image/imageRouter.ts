@@ -16,6 +16,7 @@ imageRouter.get("/svg", async (ctx) => {
   if (!url) {
     return ctx.throw(400)
   }
+  const borderMode = ctx.query.border !== "no"
 
   const r = await fetch(url, {
     headers: { "User-Agent": "Twitterbot/1.0" },
@@ -70,6 +71,7 @@ imageRouter.get("/svg", async (ctx) => {
       style: style.replace(/\<.+\>/g, ""),
       ...metadata,
       icon,
+      borderMode,
     })
     ctx.body = svg
     ctx.type = "image/svg+xml"

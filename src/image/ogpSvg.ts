@@ -7,6 +7,7 @@ export const generateSvg = (options: {
   url: string
   description?: string
   provider?: string
+  borderMode: boolean
 }) => {
   const style = options.style
   const icon = options.icon && xss(options.icon)
@@ -14,12 +15,15 @@ export const generateSvg = (options: {
   const url = xss(options.url)
   const description = options.description && xss(options.description)
   const provider = options.provider && xss(options.provider)
+  const borderMode = options.borderMode
   return `
 <svg xmlns='http://www.w3.org/2000/svg' width='640px' height='144px'>
     <foreignObject width='640px' height='144px' requiredExtensions="http://www.w3.org/1999/xhtml">
         <style>${style}</style>
         <body xmlns="http://www.w3.org/1999/xhtml" class="h-full w-full">
-            <div class="antialiased font-sans bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 rounded-md border-gray-800 border flex">
+            <div class="antialiased font-sans bg-white dark:bg-gray-900 dark:text-gray-100 w-full h-full p-4 ${
+              borderMode ? "rounded-md" : ""
+            } border-gray-800 border flex">
                 <div class="flex-shrink-0 flex items-center justify-center pl-4 pr-8">
                     <div class="bg-cover bg-center w-16 h-16 border rounded-md border-gray-600 border-opacity-50" style="background-image: url(${icon})" />
                 </div>
