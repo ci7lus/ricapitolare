@@ -1,3 +1,5 @@
+import querystring from "querystring"
+import isUrl from "is-url"
 import Router from "koa-router"
 import fetch from "node-fetch"
 import domino from "domino"
@@ -12,7 +14,17 @@ import sharp from "sharp"
 const imageRouter = new Router()
 
 imageRouter.get("/svg", async (ctx) => {
-  const url = ctx.query.url
+  const isAlreadyEscaped = ctx.querystring.includes("%3A%2F%2F") // 環境差異の吸収
+  const url = isAlreadyEscaped
+    ? encodeURI(ctx.query.url)
+    : querystring.parse(ctx.querystring, undefined, undefined, {
+        decodeURIComponent: (s) => s,
+      }).url
+  if (typeof url !== "string")
+    return Promise.reject(ctx.throw(500, "url parse error"))
+  if (!isUrl(url))
+    return Promise.reject(ctx.throw(400, "requested url is not valid"))
+
   if (!url) {
     return ctx.throw(400)
   }
