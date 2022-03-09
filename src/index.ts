@@ -1,6 +1,6 @@
 import Koa from "koa"
 import Router from "koa-router"
-import fetch from "node-fetch"
+import axios from "axios"
 import domino from "domino"
 import querystring from "querystring"
 import isUrl from "is-url"
@@ -53,16 +53,18 @@ const main = () => {
     if (!isUrl(url))
       return Promise.reject(ctx.throw(400, "requested url is not valid"))
 
-    const r = await fetch(url, {
+    const r = await axios.get<Buffer>(url, {
       headers: { "User-Agent": "Twitterbot/1.0" },
+      responseType: "arraybuffer",
     })
-    if (!r.ok)
+    if (r.status !== 200)
       return Promise.reject(
-        ctx.throw(r.status, `remote status code was ${r.status}`)
+        ctx.throw(r.status, `remote status code was ${r.statusText}`)
       )
-    if (!r.headers.get("Content-Type")?.startsWith("text/html"))
+    if (![r.headers["content-type"]].flat().shift()?.startsWith("text/html")) {
       return Promise.reject(ctx.throw(400, "remote content was not html"))
-    const buf = await r.buffer()
+    }
+    const buf = r.data
 
     let html: string
     const encoding = detectEncode(buf)
@@ -74,7 +76,8 @@ const main = () => {
 
     try {
       const { document } = domino.createWindow(html)
-      const metadata = getMetadata(document, r.url)
+      console.log(r.request.url)
+      const metadata = getMetadata(document, r.request.url)
       ctx.type = "json"
       ctx.body = metadata
       ctx.set("cache-control", "s-maxage=3600, stale-while-revalidate")
@@ -88,7 +91,7 @@ const main = () => {
 
   app.use(router.routes())
 
-  const port = process.env.PORT || 5000
+  const port = process.env.PORT || 3000
 
   app.listen(port, () => {
     console.log(`listen on http://localhost:${port}`)

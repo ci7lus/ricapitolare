@@ -1,11 +1,5 @@
 module.exports = {
-  purge: {
-    enabled: true,
-    mode: "all",
-    content: ["./src/image/ogpSvg.ts"],
-    whitelist: ["svg"],
-    whitelistPatterns: [],
-  },
+  content: ["./src/image/ogpSvg.ts"],
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,

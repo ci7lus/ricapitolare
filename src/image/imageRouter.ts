@@ -1,7 +1,7 @@
 import querystring from "querystring"
 import isUrl from "is-url"
 import Router from "koa-router"
-import fetch from "node-fetch"
+import axios from "axios"
 import domino from "domino"
 import { detectEncode } from "../encoding"
 import { getMetadata } from "page-metadata-parser"
@@ -30,16 +30,18 @@ imageRouter.get("/svg", async (ctx) => {
   }
   const borderMode = ctx.query.border !== "no"
 
-  const r = await fetch(url, {
+  const r = await axios.get<Buffer>(url, {
     headers: { "User-Agent": "Twitterbot/1.0" },
+    responseType: "arraybuffer",
   })
-  if (!r.ok)
+  if (r.status !== 200)
     return Promise.reject(
       ctx.throw(r.status, `remote status code was ${r.status}`)
     )
-  if (!r.headers.get("Content-Type")?.startsWith("text/html"))
+  if (![r.headers["content-type"]].flat().shift()?.startsWith("text/html")) {
     return Promise.reject(ctx.throw(400, "remote content was not html"))
-  const buf = await r.buffer()
+  }
+  const buf = r.data
 
   let html: string
   const encoding = detectEncode(buf)
@@ -62,23 +64,25 @@ imageRouter.get("/svg", async (ctx) => {
 
   try {
     const { document } = domino.createWindow(html)
-    const metadata = getMetadata(document, r.url)
+    const metadata = getMetadata(document, r.request.url)
     const iconUrl = metadata.image || metadata.icon
     let icon: string | undefined
     try {
       if (iconUrl) {
-        const r = await fetch(iconUrl, {
+        const r = await axios.get<Buffer>(iconUrl, {
           headers: {
             "User-Agent":
               "ricapitolare (+https://github.com/ci7lus/ricapitolare)",
           },
+          responseType: "arraybuffer",
         })
-        const mime = r.headers.get("content-type")?.toLowerCase()
-        const imageBuff = await r.buffer()
-        const buff = await sharp(imageBuff).resize(null, 128).toBuffer()
+        const mime = [r.headers["content-type"]].flat().shift()?.toLowerCase()
+        const buff = await sharp(r.data).resize(null, 256).toBuffer()
         icon = `data:${mime};base64,` + buff.toString("base64")
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
     const svg = generateSvg({
       style: style.replace(/\<.+\>/g, ""),
       ...metadata,
