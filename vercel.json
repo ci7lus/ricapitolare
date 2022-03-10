@@ -1,19 +1,17 @@
 {
-  "version": 2,
   "routes": [
     {
-      "src": "/.*",
-      "dest": "src/index.ts",
-      "headers": {
-        "access-control-allow-origin": "*"
-      }
+      "src": "/",
+      "dest": "api/index.ts"
+    },
+    {
+      "src": "/svg",
+      "dest": "api/svg.ts"
     }
   ],
-  "builds": [
-    {
-      "src": "src/index.ts",
-      "use": "@vercel/node"
-    },
-    { "src": "package.json", "use": "@vercel/static-build" }
-  ]
+  "functions": {
+    "api/svg.ts": {
+      "includeFiles": "svg.tailwind.css"
+    }
+  }
 }

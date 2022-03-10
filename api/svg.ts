@@ -1,45 +1,45 @@
 import querystring from "querystring"
 import isUrl from "is-url"
-import Router from "koa-router"
 import axios from "axios"
 import domino from "domino"
-import { detectEncode } from "../encoding"
+import { detectEncode } from "../src/encoding"
 import { getMetadata } from "page-metadata-parser"
 import iconv from "iconv-lite"
-import { generateSvg } from "./ogpSvg"
+import { generateSvg } from "../src/image/ogpSvg"
 import fs from "fs"
-import { join } from "path"
 import sharp from "sharp"
+import type { VercelRequest, VercelResponse } from "@vercel/node"
 
-const imageRouter = new Router()
-
-imageRouter.get("/svg", async (ctx) => {
-  const isAlreadyEscaped = ctx.querystring.includes("%3A%2F%2F") // 環境差異の吸収
-  const url = isAlreadyEscaped
-    ? encodeURI(ctx.query.url)
-    : querystring.parse(ctx.querystring, undefined, undefined, {
-        decodeURIComponent: (s) => s,
-      }).url
-  if (typeof url !== "string")
-    return Promise.reject(ctx.throw(500, "url parse error"))
-  if (!isUrl(url))
-    return Promise.reject(ctx.throw(400, "requested url is not valid"))
-
-  if (!url) {
-    return ctx.throw(400)
+export default async function (req: VercelRequest, res: VercelResponse) {
+  res.setHeader("access-control-allow-origin", "*")
+  if (req.method === "OPTIONS") {
+    res.setHeader("access-control-allow-methods", "GET, OPTIONS")
+    res.setHeader("access-control-allow-headers", "*")
+    res.setHeader("access-control-max-age", "86400")
+    res.statusCode = 204
+    res.end()
+    return
   }
-  const borderMode = ctx.query.border !== "no"
+  const url = req.query.url
+  if (typeof url !== "string") {
+    return res.status(500).json({ message: "url parse error" })
+  }
+  if (!isUrl(url)) {
+    return res.status(400).json({ message: "requested url is not valid" })
+  }
+  const borderMode = req.query.border !== "no"
 
   const r = await axios.get<Buffer>(url, {
     headers: { "User-Agent": "Twitterbot/1.0" },
     responseType: "arraybuffer",
   })
-  if (r.status !== 200)
-    return Promise.reject(
-      ctx.throw(r.status, `remote status code was ${r.status}`)
-    )
+  if (r.status !== 200) {
+    return res
+      .status(r.status)
+      .json({ message: `remote status code was ${r.status}` })
+  }
   if (![r.headers["content-type"]].flat().shift()?.startsWith("text/html")) {
-    return Promise.reject(ctx.throw(400, "remote content was not html"))
+    return res.status(400).json({ message: "remote content was not html" })
   }
   const buf = r.data
 
@@ -53,18 +53,18 @@ imageRouter.get("/svg", async (ctx) => {
 
   let style: string | null = null
   try {
-    style = await fs.promises.readFile(
-      join(__dirname, "..", "..", "dist", "svg.tailwind.css"),
-      "utf8"
-    )
+    style = await fs.promises.readFile("./svg.tailwind.css", "utf8")
   } catch (error) {
     console.error(error)
   }
-  if (!style) return ctx.throw(500, "style load failed")
+  if (!style) {
+    return res.status(500).json({ message: "style load failed" })
+  }
 
   try {
     const { document } = domino.createWindow(html)
-    const metadata = getMetadata(document, r.request.url)
+    const responseUrl = r.request.res.responseUrl || url
+    const metadata = getMetadata(document, responseUrl)
     const iconUrl = metadata.image || metadata.icon
     let icon: string | undefined
     try {
@@ -88,14 +88,13 @@ imageRouter.get("/svg", async (ctx) => {
       ...metadata,
       icon,
       borderMode,
+      url: responseUrl,
     })
-    ctx.body = svg
-    ctx.type = "image/svg+xml"
-    ctx.set("cache-control", "s-maxage=3600, stale-while-revalidate")
+    res.setHeader("content-type", "image/svg+xml")
+    res.setHeader("cache-control", "s-maxage=3600, stale-while-revalidate")
+    return res.status(200).send(svg).end()
   } catch (error) {
     console.error(error)
-    return Promise.reject(ctx.throw(500))
+    return res.status(500).json({ message: "parse error" })
   }
-})
-
-export { imageRouter }
+}
