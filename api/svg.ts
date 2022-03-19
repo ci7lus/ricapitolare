@@ -29,7 +29,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   }
   const borderMode = req.query.border !== "no"
 
-  const r = await axios.get<Buffer>(url, {
+  const r = await axios.get<Buffer>(encodeURI(url), {
     headers: { "User-Agent": "Twitterbot/1.0" },
     responseType: "arraybuffer",
   })

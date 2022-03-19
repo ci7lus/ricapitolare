@@ -47,7 +47,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ message: "requested url is not valid" })
   }
 
-  const r = await axios.get<Buffer>(url, {
+  const r = await axios.get<Buffer>(encodeURI(url), {
     headers: { "User-Agent": "Twitterbot/1.0" },
     responseType: "arraybuffer",
   })
