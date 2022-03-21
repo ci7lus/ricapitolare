@@ -1,6 +1,6 @@
 import axios from "axios"
 import domino from "domino"
-import querystring from "querystring"
+import swagger from "../src/swagger.json"
 import isUrl from "is-url"
 import { getMetadata } from "page-metadata-parser"
 import { detectEncode } from "../src/encoding"
@@ -18,25 +18,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
     return
   }
   if (typeof req.query.url !== "string") {
-    return res.status(200).json({
-      ricapitolare: {
-        "/": {
-          GET: {
-            query: {
-              url: "take a url of target page.",
-            },
-          },
-        },
-        "/svg": {
-          GET: {
-            query: {
-              url: "take a url of target page.",
-            },
-          },
-        },
-        repository: "https://github.com/ci7lus/ricapitolare",
-      },
-    })
+    return res.status(200).json(swagger)
   }
 
   const url = req.query.url
