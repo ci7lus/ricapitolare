@@ -16,6 +16,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 	}
 	if (typeof req.query.url !== "string") {
 		swagger.info.version = version;
+		res.setHeader("cache-control", "s-maxage=3600, stale-while-revalidate");
 		return res.status(200).json(swagger);
 	}
 
