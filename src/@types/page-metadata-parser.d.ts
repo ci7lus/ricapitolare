@@ -2,7 +2,7 @@
 declare module "page-metadata-parser" {
 	export interface IPageMetadata {
 		description?: string;
-		icon: string;
+		icon?: string;
 		image?: string;
 		keywords?: string[];
 		title?: string;

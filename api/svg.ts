@@ -1,13 +1,14 @@
 import fs from "node:fs";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import axios from "axios";
-import domino from "domino";
-import iconv from "iconv-lite";
 import isUrl from "is-url";
-import { getMetadata } from "page-metadata-parser";
 import sharp from "sharp";
-import { detectEncode } from "../src/encoding";
 import { generateSvg } from "../src/image/ogpSvg";
+import {
+	fetchPageMetadata,
+	type IPageMetadata,
+	MetadataParseError,
+} from "../src/metadata";
 
 export default async function (req: VercelRequest, res: VercelResponse) {
 	res.setHeader("access-control-allow-origin", "*");
@@ -28,29 +29,6 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 	}
 	const borderMode = req.query.border !== "no";
 
-	const r = await axios.get<Buffer>(encodeURI(url), {
-		headers: { "User-Agent": "Twitterbot/1.0" },
-		responseType: "arraybuffer",
-		validateStatus: () => true,
-	});
-	if (r.status !== 200) {
-		return res
-			.status(r.status)
-			.json({ message: `remote status code was ${r.status}` });
-	}
-	if (![r.headers["content-type"]].flat().shift()?.startsWith("text/html")) {
-		return res.status(400).json({ message: "remote content was not html" });
-	}
-	const buf = r.data;
-
-	let html: string;
-	const encoding = detectEncode(buf);
-	if (encoding) {
-		html = iconv.decode(buf, encoding);
-	} else {
-		html = buf.toString("ascii");
-	}
-
 	let style: string | null = null;
 	try {
 		style = await fs.promises.readFile("./svg.tailwind.css", "utf8");
@@ -62,13 +40,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 	}
 
 	try {
-		const { document } = domino.createWindow(html);
-		const responseUrl = r.request.res.responseUrl || url;
-		const metadata = getMetadata(document, responseUrl) as {
-			title: string;
-			image: string;
-			icon: string;
-		};
+		const { metadata, responseUrl } = await fetchPageMetadata(url);
 		const iconUrl = metadata.image || metadata.icon;
 		let icon: string | undefined;
 		try {
@@ -88,7 +60,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 			console.error(error);
 		}
 		const svg = generateSvg({
-			style: style.replace(/<.+>/g, ""),
+			style,
 			...metadata,
 			icon,
 			borderMode,
@@ -99,6 +71,21 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 		return res.status(200).send(svg).end();
 	} catch (error) {
 		console.error(error);
-		return res.status(500).json({ message: "parse error" });
+		const dummyMetadata: IPageMetadata = {
+			url,
+			title: "Failed to fetch the page",
+			provider: "ricapitolare",
+		};
+		if (error instanceof MetadataParseError) {
+			dummyMetadata.description = `${error.statusCode}`;
+		}
+		const svg = generateSvg({
+			style,
+			...dummyMetadata,
+			borderMode,
+			url,
+		});
+		res.setHeader("content-type", "image/svg+xml");
+		return res.status(500).send(svg).end();
 	}
 }
