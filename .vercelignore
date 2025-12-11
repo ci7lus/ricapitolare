@@ -1,1 +1,3 @@
-svg.tailwind.css
+/svg.tailwind.css
+/dist/
+/.vercel/

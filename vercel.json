@@ -1,17 +1,17 @@
 {
-  "routes": [
-    {
-      "src": "/",
-      "dest": "api/index.ts"
-    },
-    {
-      "src": "/svg",
-      "dest": "api/svg.ts"
-    }
-  ],
-  "functions": {
-    "api/svg.ts": {
-      "includeFiles": "svg.tailwind.css"
-    }
-  }
+	"routes": [
+		{
+			"src": "/",
+			"dest": "api/index.ts"
+		},
+		{
+			"src": "/svg",
+			"dest": "api/svg.ts"
+		}
+	],
+	"functions": {
+		"api/svg.ts": {
+			"includeFiles": "svg.tailwind.css"
+		}
+	}
 }

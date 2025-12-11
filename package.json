@@ -1,35 +1,34 @@
 {
-  "name": "ricapitolare",
-  "version": "2.0.0",
-  "author": "ci7lus <7887955+ci7lus@users.noreply.github.com>",
-  "license": "MIT",
-  "private": true,
-  "devDependencies": {
-    "@types/is-url": "^1.2.30",
-    "@types/sharp": "^0.29.5",
-    "@vercel/node": "^1.13.0",
-    "autoprefixer": "^10.4.2",
-    "nodemon": "^2.0.15",
-    "prettier": "^2.5.1",
-    "tailwindcss": "^3.0.23",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.2"
-  },
-  "dependencies": {
-    "axios": "^0.26.0",
-    "domino": "^2.1.6",
-    "iconv-lite": "^0.6.3",
-    "is-url": "^1.2.4",
-    "jschardet": "^3.0.0",
-    "page-metadata-parser": "^1.1.4",
-    "sharp": "^0.30.5",
-    "xss": "^1.0.11"
-  },
-  "scripts": {
-    "dev": "nodemon",
-    "vercel-build": "./build.sh"
-  },
-  "engines": {
-    "node": ">=14"
-  }
+	"name": "ricapitolare",
+	"version": "2.1.0",
+	"author": "ci7lus <7887955+ci7lus@users.noreply.github.com>",
+	"license": "MIT",
+	"private": true,
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.8",
+		"@tailwindcss/cli": "^4.1.17",
+		"@types/is-url": "^1.2.32",
+		"@types/node": "^24.10.2",
+		"@types/sharp": "^0.32.0",
+		"@vercel/node": "^5.5.15",
+		"autoprefixer": "^10.4.22",
+		"tailwindcss": "^4.1.17",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"vercel": "^49.1.2"
+	},
+	"dependencies": {
+		"axios": "^1.13.2",
+		"domino": "^2.1.6",
+		"iconv-lite": "^0.7.0",
+		"is-url": "^1.2.4",
+		"jschardet": "^3.1.4",
+		"page-metadata-parser": "^1.1.4",
+		"sharp": "^0.34.5",
+		"xss": "^1.0.15"
+	},
+	"scripts": {
+		"dev": "vc dev",
+		"vercel-build": "./build.sh"
+	}
 }
