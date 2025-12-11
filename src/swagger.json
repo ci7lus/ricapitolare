@@ -24,7 +24,7 @@
 					{
 						"name": "url",
 						"in": "query",
-						"description": "URL to obtain",
+						"description": "The URL to retrieve metadata for",
 						"required": true,
 						"type": "string"
 					}
@@ -33,11 +33,11 @@
 					"200": {
 						"description": "successful operation",
 						"schema": {
-							"type": "array",
-							"items": {
-								"$ref": "#/definitions/OGP"
-							}
+							"$ref": "#/definitions/OGP"
 						}
+					},
+					"500": {
+						"description": "parse error"
 					},
 					"400": {
 						"description": "requested url is not valid"
@@ -54,7 +54,7 @@
 					{
 						"name": "url",
 						"in": "query",
-						"description": "URL to obtain",
+						"description": "The URL to retrieve metadata for",
 						"required": true,
 						"type": "string"
 					}
@@ -65,6 +65,9 @@
 					},
 					"400": {
 						"description": "requested url is not valid"
+					},
+					"500": {
+						"description": "parse error"
 					}
 				}
 			}
@@ -73,25 +76,37 @@
 	"definitions": {
 		"OGP": {
 			"type": "object",
-			"required": ["name", "photoUrls"],
+			"required": ["url", "provider"],
 			"properties": {
 				"description": {
 					"type": "string",
-					"example": "“＼福招く十七歳大人ガチャ開催🌺／\n\nピックアップアイドルの開花Ptが100Ptつき✨\n新衣装のアイドルが登場！\n\n【★5 解き放たれる十七歳 佐伯遙子】\n\n※新登場のアイドルは、ダイヤガチャからも登場します。また、期間終了後もダイヤガチャから登場します。\n\n#アイプラ”",
-					"description": "A user displayable description for the page."
+					"example": "TVアニメ『ジョジョの奇妙な冒険　黄金の風』2018.10.5 ON AIR!!!",
+					"description": "A user-displayable description of the page."
 				},
 				"icon": {
 					"type": "string",
-					"example": "https://abs.twimg.com/icons/apple-touch-icon-192x192.png",
-					"description": "A URL which contains an icon for the page."
+					"example": "https://jojo-animation.com/img/favicon/favicon.ico",
+					"description": "URL of the page icon."
 				},
 				"image": {
 					"type": "string",
-					"example": "https://pbs.twimg.com/media/FOV4Y1rVQAIbYV_.jpg:large",
-					"description": "A URL which contains a preview image for the page."
+					"example": "http://jojo-animation.com/og_img/og_img5.jpg",
+					"description": "URL of the page preview image."
 				},
 				"keywords": {
 					"type": "array",
+					"example": [
+						"荒木飛呂彦",
+						"ジョジョの奇妙な冒険",
+						"ジョジョ",
+						"JOJO",
+						"GIOGIO",
+						"ウルトラジャンプ",
+						"ブチャラティ",
+						"TVアニメ",
+						"アニメーション",
+						"animation"
+					],
 					"description": "The meta keywords for the page.",
 					"items": {
 						"type": "string"
@@ -99,27 +114,27 @@
 				},
 				"provider": {
 					"type": "string",
-					"example": "Twitter",
-					"description": "A string representation of the sub and primary domains."
+					"example": "jojo-animation",
+					"description": "The provider name or domain of the page."
 				},
 				"title": {
 					"type": "string",
-					"example": "IDOLY PRIDE アイドリープライド(アイプラ)｜ゲーム好評配信中 on Twitter",
-					"description": "A user displayable title for the page."
+					"example": "ジョルノ・ジョバァーナ | CHARACTER | TVアニメ『ジョジョの奇妙な冒険 黄金の風』公式サイト",
+					"description": "A user-displayable title of the page."
 				},
 				"language": {
 					"type": "string",
-					"example": "en",
+					"example": "ja",
 					"description": "Language"
 				},
 				"type": {
 					"type": "string",
-					"example": "article",
-					"description": "The type of content as defined by opengraph."
+					"example": "website",
+					"description": "The type of content as defined by Open Graph."
 				},
 				"url": {
 					"type": "string",
-					"example": "https://twitter.com/idolypride/status/1505742118597246976",
+					"example": "http://jojo-animation.com/",
 					"description": "A canonical URL for the page."
 				}
 			}
