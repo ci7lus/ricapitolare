@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import axios from "axios";
-import isUrl from "is-url";
 import sharp from "sharp";
 import { generateSvg } from "../src/image/ogpSvg";
 import {
@@ -20,11 +19,18 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 		res.end();
 		return;
 	}
-	const url = req.query.url;
-	if (typeof url !== "string") {
+	const urlStr = req.query.url;
+	if (typeof urlStr !== "string") {
 		return res.status(500).json({ message: "url parse error" });
 	}
-	if (!isUrl(url)) {
+	let url: URL;
+	try {
+		url = new URL(urlStr);
+	} catch (error) {
+		console.error(error);
+		return res.status(400).json({ message: "requested url is not valid" });
+	}
+	if (!["http:", "https:"].includes(url.protocol)) {
 		return res.status(400).json({ message: "requested url is not valid" });
 	}
 	const borderMode = req.query.border !== "no";
@@ -40,7 +46,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 	}
 
 	try {
-		const { metadata, responseUrl } = await fetchPageMetadata(url);
+		const { metadata, responseUrl } = await fetchPageMetadata(url.href);
 		const iconUrl = metadata.image || metadata.icon;
 		let icon: string | undefined;
 		try {
@@ -77,7 +83,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 			provider: "ricapitolare",
 		};
 		if (error instanceof MetadataParseError) {
-			dummyMetadata.description = `${error.statusCode}`;
+			dummyMetadata.description = `StatusCode: ${error.statusCode}`;
 		}
 		const svg = generateSvg({
 			style,
