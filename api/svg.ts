@@ -78,7 +78,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 	} catch (error) {
 		console.error(error);
 		const dummyMetadata: IPageMetadata = {
-			url,
+			url: url.href,
 			title: "Failed to fetch the page",
 			provider: "ricapitolare",
 		};
@@ -87,9 +87,8 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 		}
 		const svg = generateSvg({
 			style,
-			...dummyMetadata,
 			borderMode,
-			url,
+			...dummyMetadata,
 		});
 		res.setHeader("content-type", "image/svg+xml");
 		return res.status(500).send(svg).end();
