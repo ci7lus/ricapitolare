@@ -24,7 +24,7 @@ export async function fetchPageMetadata(url: string): Promise<{
 		validateStatus: () => true,
 	});
 
-	if (r.status !== 200) {
+	if (r.status >= 400) {
 		throw new MetadataParseError(
 			r.status,
 			`remote status code was ${r.status}`,
