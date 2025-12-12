@@ -1,7 +1,8 @@
 import axios from "axios";
 import domino from "domino";
 import iconv from "iconv-lite";
-import { getMetadata, type IPageMetadata } from "page-metadata-parser";
+// @ts-expect-error
+import { getMetadata } from "page-metadata-parser";
 import { detectEncode } from "./encoding";
 
 export class MetadataParseError extends Error {
@@ -51,4 +52,14 @@ export async function fetchPageMetadata(url: string): Promise<{
 	return { metadata, responseUrl };
 }
 
-export type { IPageMetadata };
+export type IPageMetadata = {
+	description?: string;
+	icon?: string;
+	image?: string;
+	keywords?: string[];
+	title?: string;
+	language?: string;
+	type?: string;
+	url: string;
+	provider: string;
+};
