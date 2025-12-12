@@ -59,7 +59,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 					responseType: "arraybuffer",
 				});
 				const mime = [r.headers["content-type"]].flat().shift()?.toLowerCase();
-				const buff = await sharp(r.data).resize(null, 256).toBuffer();
+				const buff = await sharp(r.data).resize(null, 128).toBuffer();
 				icon = `data:${mime};base64,${buff.toString("base64")}`;
 			}
 		} catch (error) {
