@@ -7,6 +7,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.8",
 		"@tailwindcss/cli": "^4.1.17",
+		"@types/he": "^1.2.3",
 		"@types/node": "^24.10.2",
 		"@types/sharp": "^0.32.0",
 		"@vercel/node": "^5.5.15",
@@ -19,6 +20,7 @@
 	"dependencies": {
 		"axios": "^1.13.2",
 		"domino": "^2.1.6",
+		"he": "^1.2.0",
 		"iconv-lite": "^0.7.0",
 		"jschardet": "^3.1.4",
 		"page-metadata-parser": "^1.1.4",
