@@ -15,7 +15,7 @@
 		"tailwindcss": "^4.1.17",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
-		"vercel": "^49.1.2"
+		"vercel": "^54.0.0"
 	},
 	"dependencies": {
 		"domino": "^2.1.6",
