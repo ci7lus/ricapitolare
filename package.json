@@ -14,7 +14,7 @@
 		"autoprefixer": "^10.4.22",
 		"tailwindcss": "^4.1.17",
 		"tsx": "^4.21.0",
-		"typescript": "^5.9.3",
+		"typescript": "^6.0.0",
 		"vercel": "^49.1.2"
 	},
 	"dependencies": {
