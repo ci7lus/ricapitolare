@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import axios from "axios";
 import sharp from "sharp";
 import { generateSvg } from "../src/image/ogpSvg";
 import {
@@ -51,15 +50,20 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 		let icon: string | undefined;
 		try {
 			if (iconUrl) {
-				const r = await axios.get<Buffer>(iconUrl, {
+				const r = await fetch(iconUrl, {
 					headers: {
 						"User-Agent":
 							"ricapitolare (+https://github.com/ci7lus/ricapitolare)",
 					},
-					responseType: "arraybuffer",
 				});
-				const mime = [r.headers["content-type"]].flat().shift()?.toLowerCase();
-				const buff = await sharp(r.data).resize(null, 128).toBuffer();
+				if (!r.ok) {
+					throw new Error(`Failed to fetch icon: ${r.status}`);
+				}
+				const mime = r.headers.get("content-type")?.toLowerCase();
+				const arrayBuffer = await r.arrayBuffer();
+				const buff = await sharp(Buffer.from(arrayBuffer))
+					.resize(null, 128)
+					.toBuffer();
 				icon = `data:${mime};base64,${buff.toString("base64")}`;
 			}
 		} catch (error) {
