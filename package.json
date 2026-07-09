@@ -29,6 +29,14 @@
 	},
 	"scripts": {
 		"dev": "vc dev",
-		"vercel-build": "./build.sh"
+		"vercel-build": "./build.sh",
+		"format": "biome format --fix"
+	},
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"version": ">=11.0.0",
+			"onFail": "error"
+		}
 	}
 }
