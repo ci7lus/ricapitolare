@@ -11,7 +11,7 @@
 		"@types/node": "^24.10.2",
 		"@types/sharp": "^0.32.0",
 		"@vercel/node": "^5.5.15",
-		"autoprefixer": "^10.4.22",
+		"autoprefixer": "^10.5.4",
 		"tailwindcss": "^4.1.17",
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
