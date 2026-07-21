@@ -230,37 +230,37 @@ importers:
         version: 1.0.15
     devDependencies:
       '@biomejs/biome':
-        specifier: ^2.3.8
+        specifier: 2.3.8
         version: 2.3.8
       '@tailwindcss/cli':
-        specifier: ^4.1.17
+        specifier: 4.1.17
         version: 4.1.17
       '@types/he':
-        specifier: ^1.2.3
+        specifier: 1.2.3
         version: 1.2.3
       '@types/node':
-        specifier: ^24.10.2
+        specifier: 24.10.2
         version: 24.10.2
       '@types/sharp':
-        specifier: ^0.32.0
+        specifier: 0.32.0
         version: 0.32.0
       '@vercel/node':
-        specifier: ^5.5.15
+        specifier: 5.5.15
         version: 5.5.15
       autoprefixer:
-        specifier: ^10.4.22
+        specifier: 10.4.22
         version: 10.4.22(postcss@8.5.6)
       tailwindcss:
-        specifier: ^4.1.17
+        specifier: 4.1.17
         version: 4.1.17
       tsx:
-        specifier: ^4.21.0
+        specifier: 4.21.0
         version: 4.21.0
       typescript:
-        specifier: ^5.9.3
+        specifier: 5.9.3
         version: 5.9.3
       vercel:
-        specifier: ^49.1.2
+        specifier: 49.1.2
         version: 49.1.2(typescript@5.9.3)
 
 packages:
