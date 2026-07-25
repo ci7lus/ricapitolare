@@ -23,7 +23,7 @@
 		"iconv-lite": "^0.7.0",
 		"jschardet": "^3.1.4",
 		"page-metadata-parser": "^1.1.4",
-		"sharp": "^0.34.5",
+		"sharp": "^0.35.0",
 		"xss": "^1.0.15"
 	},
 	"scripts": {
