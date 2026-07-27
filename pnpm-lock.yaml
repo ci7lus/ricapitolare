@@ -224,7 +224,7 @@ importers:
         version: 1.1.4
       sharp:
         specifier: ^0.35.0
-        version: 0.35.3(@types/node@24.10.2)
+        version: 0.35.3(@types/node@24.13.3)
       xss:
         specifier: ^1.0.15
         version: 1.0.15
@@ -239,11 +239,11 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@types/node':
-        specifier: 24.10.2
-        version: 24.10.2
+        specifier: 24.13.3
+        version: 24.13.3
       '@types/sharp':
         specifier: 0.32.0
-        version: 0.32.0(@types/node@24.10.2)
+        version: 0.32.0(@types/node@24.13.3)
       '@vercel/node':
         specifier: 5.5.15
         version: 5.5.15
@@ -1435,8 +1435,8 @@ packages:
   '@types/node@16.18.11':
     resolution: {integrity: sha512-3oJbGBUWuS6ahSnEq1eN2XrCyf4YsWI8OyCvo7c64zQJNplk3mO84t53o8lfTk+2ji59g5ycfc6qQ3fdHliHuA==}
 
-  '@types/node@24.10.2':
-    resolution: {integrity: sha512-WOhQTZ4G8xZ1tjJTvKOpyEVSGgOTvJAfDK3FNFgELyaTpzhdgHVHeqW8V+UJvzF5BT+/B54T/1S2K6gd9c7bbA==}
+  '@types/node@24.13.3':
+    resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
 
   '@types/sharp@0.32.0':
     resolution: {integrity: sha512-OOi3kL+FZDnPhVzsfD37J88FNeZh6gQsGcLc95NbeURRGvmSjeXiDcyWzF2o3yh/gQAUn2uhh/e+CPCa5nwAxw==}
@@ -2544,8 +2544,8 @@ packages:
   uid-promise@1.0.0:
     resolution: {integrity: sha512-R8375j0qwXyIu/7R0tjdF06/sElHqbmdmWC9M2qQHpEVbvE4I5+38KJI7LUUmQMp7NVq4tKHiBMkT0NFM453Ig==}
 
-  undici-types@7.16.0:
-    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+  undici-types@7.18.2:
+    resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
   undici@5.28.4:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
@@ -3371,13 +3371,13 @@ snapshots:
 
   '@types/node@16.18.11': {}
 
-  '@types/node@24.10.2':
+  '@types/node@24.13.3':
     dependencies:
-      undici-types: 7.16.0
+      undici-types: 7.18.2
 
-  '@types/sharp@0.32.0(@types/node@24.10.2)':
+  '@types/sharp@0.32.0(@types/node@24.13.3)':
     dependencies:
-      sharp: 0.35.3(@types/node@24.10.2)
+      sharp: 0.35.3(@types/node@24.13.3)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -4448,7 +4448,7 @@ snapshots:
 
   setprototypeof@1.1.1: {}
 
-  sharp@0.35.3(@types/node@24.10.2):
+  sharp@0.35.3(@types/node@24.13.3):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -4479,7 +4479,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.3
       '@img/sharp-win32-ia32': 0.35.3
       '@img/sharp-win32-x64': 0.35.3
-      '@types/node': 24.10.2
+      '@types/node': 24.13.3
 
   shebang-command@2.0.0:
     dependencies:
@@ -4600,7 +4600,7 @@ snapshots:
 
   uid-promise@1.0.0: {}
 
-  undici-types@7.16.0: {}
+  undici-types@7.18.2: {}
 
   undici@5.28.4:
     dependencies:
