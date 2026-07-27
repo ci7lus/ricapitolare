@@ -6,13 +6,13 @@
 	"private": true,
 	"devDependencies": {
 		"@biomejs/biome": "2.5.5",
-		"@tailwindcss/cli": "4.1.17",
+		"@tailwindcss/cli": "4.3.3",
 		"@types/he": "1.2.3",
 		"@types/node": "24.13.3",
 		"@types/sharp": "0.32.0",
 		"@vercel/node": "5.5.15",
 		"autoprefixer": "10.5.4",
-		"tailwindcss": "4.1.17",
+		"tailwindcss": "4.3.3",
 		"tsx": "4.21.0",
 		"typescript": "5.9.3",
 		"vercel": "49.2.0"
