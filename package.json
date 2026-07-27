@@ -10,7 +10,7 @@
 		"@types/he": "1.2.3",
 		"@types/node": "24.13.3",
 		"@types/sharp": "0.32.0",
-		"@vercel/node": "5.5.15",
+		"@vercel/node": "5.8.26",
 		"autoprefixer": "10.5.4",
 		"tailwindcss": "4.3.3",
 		"tsx": "4.21.0",
