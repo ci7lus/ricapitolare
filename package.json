@@ -5,25 +5,25 @@
 	"license": "MIT",
 	"private": true,
 	"devDependencies": {
-		"@biomejs/biome": "2.5.5",
+		"@biomejs/biome": "2.5.6",
 		"@tailwindcss/cli": "4.3.3",
 		"@types/he": "1.2.3",
-		"@types/node": "24.13.3",
+		"@types/node": "26.1.2",
 		"@types/sharp": "0.32.0",
-		"@vercel/node": "5.8.26",
+		"@vercel/node": "5.9.3",
 		"autoprefixer": "10.5.4",
 		"tailwindcss": "4.3.3",
 		"tsx": "4.23.1",
-		"typescript": "5.9.3",
-		"vercel": "49.2.0"
+		"typescript": "7.0.2",
+		"vercel": "58.4.4"
 	},
 	"dependencies": {
-		"domino": "^2.1.6",
+		"domino": "^2.1.7",
 		"he": "^1.2.0",
-		"iconv-lite": "^0.7.0",
+		"iconv-lite": "^0.7.3",
 		"jschardet": "^3.1.4",
 		"page-metadata-parser": "^1.1.4",
-		"sharp": "^0.35.0",
+		"sharp": "^0.35.3",
 		"xss": "^1.0.15"
 	},
 	"scripts": {
